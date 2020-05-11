@@ -114,7 +114,7 @@ if __name__ == '__main__':
 
   print('Saved')
 
-  '''print("Training")
+  print("Training")
   clf = svm.SVC(kernel='rbf')
   clf.fit(X_train, Y_train)
 
@@ -125,4 +125,4 @@ if __name__ == '__main__':
 
   print(metrics.f1_score(y_true, y_pred, average='weighted'))
   print(metrics.f1_score(y_true, y_pred, average='macro'))
-  print(metrics.f1_score(y_true, y_pred, average='micro'))'''
+  print(metrics.f1_score(y_true, y_pred, average='micro'))
