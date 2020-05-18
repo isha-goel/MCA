@@ -1,0 +1,43 @@
+HOMEWORK 3
+
+Question 1
+
+Reference- https://github.com/adventuresinML/adventures-in-ml-code/blob/e661eeb5db86d2d0aa21621b68b5186d80e3d8b6/keras_word2vec.py#L37
+
+The code has been taken from this link and has been modified for the given dataset.
+
+Word2Vec is used to represent each word in a large document as a vector of N dimensions where similar words are close to each other. Different models can be used for this and one of them is the Skip-Gram model.  
+In the model, every word and its surrounding words, in a defined window, in the document are taken and fed into a neural network which then predicts the probability of a word to appear in the window of the word taken into consideration.
+Since words cannot be directly fed into the neural network, they are first represented as vectors. To do that, first, a vocabulary containing all the words in the document is created. Every word is represented as a vector with the same size as the vocabulary where each dimension describes a word in the vocabulary. 
+Then the input is fed into a neural network. It will process it and output a probability for each word in the vocabulary to appear in a randomly chosen position around the chosen word (but still inside the window).
+
+Question 2
+
+Relevance Feedback  - 
+The following process was done for each query:
+The top N (10) documents were retrieved from the sim matrix. Then these top 10  retrieved documents were compared to the entries in the ground truth for that particular query to find the relevant documents. The retrieved documents that were not present in the ground truth for that query were considered as the non-relevant documents. After this, the corresponding tf-idf vectors to the relevant documents were added and the same was done for non-relevant documents. Then the tf-idf vector for the query was updated using the following formula - 
+vec_queries[i] = vec_queries[i] +𝝰 Σm∊Rm - 𝛃Σn∊NRn
+
+where  R = relevant documents
+NR = non-relevant documents
+vec_queries[i] = tf-idf vector for the ith query
+𝝰, 𝛃 = weights
+
+For this code 𝝰 was taken to be 0.7 and 𝛃 was taken to be 0.3
+
+Once all the query vectors were updated, the matrix of similarity was computed once again using the updated query vectors and the original document vectors.
+
+The MAP score for this part was 0.7334200982488369
+
+Relevance Feedback and Query Expansion  - 
+The following process was done for each query:
+The entire process of relevance feedback was performed. After this initial update of the query vector, all the relevant documents for that particular query were retrieved from the ground truth. For each relevant document, the top N (10) words were found by sorting the values of the tf-idf vector corresponding to the document and picking up the 10 with the largest values. Finally, out of all the words retrieved from the relevant documents, a final set of 10 top words were picked using the same method. Then for every word in the final 10, their vector was added to the corresponding query vector. The vector for each word was created by taking a 0 vector of the same length as the query vector and putting the value that the word has in its document vector at the same index.
+
+Once all the query vectors were updated, the matrix of similarity was computed once again using the updated query vectors and the original document vectors.
+
+The MAP score for this part was 0.7883818416905843
+
+Results improved in both cases. Pseudo relevance feedback performed better than normal information retrieval because it simulates relevance feedback by reinforcing the top-ranked results as if the searcher had provided positive relevance feedback for them which helps in guiding the search engine to better understand the query and give improved results. 
+Relevance feedback and query expansion performed even better than pseudo relevance feedback. This is because by stemming a user-entered term, more documents are matched, as the alternate word forms for a user-entered term are also matched due to which pages which would not be included in the result set but have the potential to be more relevant to the user's desired query, are included which would not be the case without query expansion, regardless of relevance. 
+
+
